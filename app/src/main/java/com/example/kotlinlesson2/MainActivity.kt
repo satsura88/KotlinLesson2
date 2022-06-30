@@ -3,6 +3,7 @@ package com.example.kotlinlesson2
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.kotlinlesson2.databinding.ActivityMainBinding
+import com.example.kotlinlesson2.view.weatherlist.WeatherListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -10,9 +11,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.parent) // если не задан id то root
-        //setContentView(R.layout.activity_main)
-        binding.btn.text = "Change"
-        //findViewById<Button>(R.id.btn).text = "Change"
+        setContentView(binding.myRoot) // если не задан id то root
+
+
+        if(savedInstanceState==null){
+            supportFragmentManager.beginTransaction().replace(R.id.container, WeatherListFragment.newInstance()).commit()
+        }
     }
 }
