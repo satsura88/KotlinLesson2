@@ -29,7 +29,7 @@ class WeatherListViewModel(private val liveData: MutableLiveData<AppState> = Mut
     fun sentRequest(){
         //choiceRepository() - при каждом запросе
         liveData.value = AppState.Loading
-        if((0..3).random()==1){
+        if((0..5).random()==3){
             liveData.postValue(AppState.Error(throw IllegalStateException("WRONG")))
         }else{
             liveData.postValue(AppState.Success(repository.getWeather(53.9000000, 27.5666700)))
