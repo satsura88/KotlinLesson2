@@ -19,7 +19,12 @@ class WeatherListFragment : Fragment() {
         fun newInstance() = WeatherListFragment()
     }
 
-    lateinit var binding: FragmentWeatherListBinding
+    private var binding: FragmentWeatherListBinding?= null
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
     lateinit var viewModel: WeatherListViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +32,7 @@ class WeatherListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWeatherListBinding.inflate(inflater)
-        return binding.root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,20 +49,20 @@ class WeatherListFragment : Fragment() {
     private fun renderData(appState: AppState){
         when(appState){
             is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE
-                Snackbar.make(binding.mainView, "ERROR", Snackbar.LENGTH_LONG).setAction("Restart"){
+                binding!!.loadingLayout.visibility = View.GONE
+                Snackbar.make(binding!!.mainView, "ERROR", Snackbar.LENGTH_LONG).setAction("Restart"){
                     viewModel.repository.getListWeather()
                 }.show()
             }
-            is AppState.Loading -> {
-                binding.loadingLayout.visibility = View.VISIBLE
+            AppState.Loading -> {
+                 binding!!.loadingLayout.visibility = View.VISIBLE
             }
             is AppState.Success -> {
                 val result = appState.weatherData
-                binding.cityName.text = result.city.name
-                binding.temperatureValue.text = result.temperature.toString()
-                binding.feelsLikeValue.text = result.feelsLike.toString()
-                binding.cityCoordinates.text = "${result.city.lat}/${result.city.lon}"
+                binding!!.cityName.text = result.city.name
+                binding!!.temperatureValue.text = result.temperature.toString()
+                binding!!.feelsLikeValue.text = result.feelsLike.toString()
+                binding!!.cityCoordinates.text = "${result.city.lat}/${result.city.lon}"
             }
         }
     }
