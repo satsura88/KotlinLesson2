@@ -2,16 +2,15 @@ package com.example.kotlinlesson2.view.weatherlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.kotlinlesson2.model.Repository
-import com.example.kotlinlesson2.model.RepositoryLocalImpl
-import com.example.kotlinlesson2.model.RepositoryRemoteImpl
+import com.example.kotlinlesson2.model.*
 import com.example.kotlinlesson2.viewmodel.AppState
 
 
 class WeatherListViewModel(private val liveData: MutableLiveData<AppState> = MutableLiveData<AppState>()):
     ViewModel(){
 
-    lateinit var repository: Repository
+    lateinit var repositoryOne: RepositoryMono
+    lateinit var repositoryMulti: RepositoryMany
 
     fun getLiveData():MutableLiveData<AppState>{
         choiceRepository()
@@ -19,20 +18,28 @@ class WeatherListViewModel(private val liveData: MutableLiveData<AppState> = Mut
     }
 
     private fun choiceRepository(){
-        repository = if(isConnection()){
+        repositoryOne = if(isConnection()){
             RepositoryRemoteImpl()
         }else{
             RepositoryLocalImpl()
         }
+        repositoryMulti = RepositoryLocalImpl()
     }
 
-    fun sentRequest(){
+    fun getWeatherListForBelarus(){
+        sentRequest(Location.Belarus)
+    }
+    fun getWeatherListForWorld(){
+        sentRequest(Location.World)
+    }
+
+    private fun sentRequest(location: Location){
         //choiceRepository() - при каждом запросе
         liveData.value = AppState.Loading
-        if((0..5).random()==3){
+        if(false){
             liveData.postValue(AppState.Error(throw IllegalStateException("WRONG")))
         }else{
-            liveData.postValue(AppState.Success(repository.getWeather(53.9000000, 27.5666700)))
+            liveData.postValue(AppState.SuccessMulti(repositoryMulti.getListWeather(location)))
         }
     }
 
