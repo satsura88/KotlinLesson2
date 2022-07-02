@@ -9,11 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinlesson2.R
 import com.example.kotlinlesson2.databinding.FragmentWeatherListBinding
+import com.example.kotlinlesson2.domain.Weather
+import com.example.kotlinlesson2.view.details.DetailsFragment
+import com.example.kotlinlesson2.view.details.OnItemClick
 import com.example.kotlinlesson2.viewmodel.AppState
-import com.google.android.material.snackbar.Snackbar
 
 
-class WeatherListFragment : Fragment() {
+
+class WeatherListFragment : Fragment(), OnItemClick {
 
     companion object {
         fun newInstance() = WeatherListFragment()
@@ -38,7 +41,7 @@ class WeatherListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentWeatherListBinding.inflate(inflater)
         return binding.root
     }
@@ -81,8 +84,13 @@ class WeatherListFragment : Fragment() {
 
             }
             is AppState.SuccessMulti ->{
-                binding.mainFragmentRecyclerView.adapter = WeatherListAdapter(appState.weatherList)
+                binding.mainFragmentRecyclerView.adapter = WeatherListAdapter(appState.weatherList,this)
             }
         }
+    }
+    override fun onItemClick(weather: Weather) {
+        requireActivity().supportFragmentManager.beginTransaction().hide(this).add(
+            R.id.container, DetailsFragment.newInstance(weather)
+        ).addToBackStack("").commit()
     }
 }
