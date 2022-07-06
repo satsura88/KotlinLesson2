@@ -1,9 +1,10 @@
-package com.example.kotlinlesson2.view.weatherlist
+package com.example.kotlinlesson2.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinlesson2.model.*
 import com.example.kotlinlesson2.viewmodel.AppState
+import kotlin.random.Random
 
 
 class WeatherListViewModel(private val liveData: MutableLiveData<AppState> = MutableLiveData<AppState>()):
@@ -36,11 +37,15 @@ class WeatherListViewModel(private val liveData: MutableLiveData<AppState> = Mut
     private fun sentRequest(location: Location){
         //choiceRepository() - при каждом запросе
         liveData.value = AppState.Loading
-        if(false){
-            liveData.postValue(AppState.Error(throw IllegalStateException("WRONG")))
-        }else{
-            liveData.postValue(AppState.SuccessMulti(repositoryMulti.getListWeather(location)))
-        }
+        Thread{
+            Thread.sleep(3000L)
+            if((0..3).random(Random(System.currentTimeMillis()))==1){
+                liveData.postValue(AppState.Error(IllegalStateException("WRONG")))
+            }else{
+                liveData.postValue(AppState.SuccessMulti(repositoryMulti.getListWeather(location)))
+            }
+        }.start()
+
     }
 
     private fun isConnection(): Boolean {

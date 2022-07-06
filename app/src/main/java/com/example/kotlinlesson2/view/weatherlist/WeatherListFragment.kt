@@ -13,7 +13,7 @@ import com.example.kotlinlesson2.domain.Weather
 import com.example.kotlinlesson2.view.details.DetailsFragment
 import com.example.kotlinlesson2.view.details.OnItemClick
 import com.example.kotlinlesson2.viewmodel.AppState
-
+import com.example.kotlinlesson2.viewmodel.WeatherListViewModel
 
 
 class WeatherListFragment : Fragment(), OnItemClick {
@@ -71,13 +71,8 @@ class WeatherListFragment : Fragment(), OnItemClick {
     private fun renderData(appState: AppState){
         when(appState){
             is AppState.Error -> {
-            //   binding.loadingLayout.visibility = View.GONE
-            //  Snackbar.make(binding.mainView, "ERROR", Snackbar.LENGTH_LONG).setAction("Restart"){
-            //      viewModel.repository.getListWeather()
-            //  }.show()
             }
             AppState.Loading -> {
-            //     binding.loadingLayout.visibility = View.VISIBLE
             }
             is AppState.SuccessOne -> {
                 val result = appState.weatherData
