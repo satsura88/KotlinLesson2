@@ -3,7 +3,6 @@ package com.example.kotlinlesson2.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinlesson2.model.*
-import com.example.kotlinlesson2.viewmodel.AppState
 import kotlin.random.Random
 
 
