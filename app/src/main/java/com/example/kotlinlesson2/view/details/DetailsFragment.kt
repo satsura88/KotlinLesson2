@@ -33,17 +33,20 @@ class DetailsFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //val weather=  arguments?.get(BUNDLE_WEATHER_EXTRA)
-        val weather = (arguments?.getParcelable<Weather>(BUNDLE_WEATHER_EXTRA))
+        val weather = arguments?.let { arg ->
+            arg.getParcelable<Weather>(BUNDLE_WEATHER_EXTRA)
+        }
         if (weather != null)
             renderData(weather)
     }
 
     private fun renderData(weather: Weather) {
-        binding.cityName.text = weather.city.name
-        binding.temperatureValue.text = weather.temperature.toString()
-        binding.feelsLikeValue.text = weather.feelsLike.toString()
-        binding.cityCoordinates.text = "${weather.city.lat}/${weather.city.lon}"
+        with(binding){
+            cityName.text = weather.city.name
+            temperatureValue.text = weather.temperature.toString()
+            feelsLikeValue.text = weather.feelsLike.toString()
+            cityCoordinates.text = "${weather.city.lat}/${weather.city.lon}"
+        }
     }
 
     companion object {
