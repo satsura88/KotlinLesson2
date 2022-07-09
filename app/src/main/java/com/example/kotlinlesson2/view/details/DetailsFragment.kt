@@ -36,11 +36,39 @@ class DetailsFragment:Fragment() {
         val weather = arguments?.let { arg ->
             arg.getParcelable<Weather>(BUNDLE_WEATHER_EXTRA)
         }
+
+        val weather2 = arguments?.run {
+            this.getParcelable<Weather>(BUNDLE_WEATHER_EXTRA)
+            getParcelable<Weather>(BUNDLE_WEATHER_EXTRA)
+        }
+
         if (weather != null)
             renderData(weather)
     }
 
     private fun renderData(weather: Weather) {
+
+        binding?.apply {
+            this.cityName
+            cityName
+        }
+        val resAlso = binding?.also { newIt ->
+            newIt.cityName.text = ""
+            val resLet = binding?.let { bindingMy ->
+                bindingMy.cityName.toString()
+                bindingMy.cityCoordinates.toString()
+            }
+        }
+
+        val resAlso2 = binding?.also { ewsgfweg ->
+            ewsgfweg.cityName.text = ""
+            val resLet = binding?.run {
+                cityName.toString()
+                cityCoordinates.toString()
+            }
+        }
+        val resRun = binding?.run { cityName.toString() }
+
         with(binding){
             cityName.text = weather.city.name
             temperatureValue.text = weather.temperature.toString()
@@ -52,10 +80,19 @@ class DetailsFragment:Fragment() {
     companion object {
         const val BUNDLE_WEATHER_EXTRA = "пиво не пиво"
         fun newInstance(weather: Weather): DetailsFragment {
-            val bundle = Bundle()
-            bundle.putParcelable(BUNDLE_WEATHER_EXTRA, weather)
+
             val fr = DetailsFragment()
-            fr.arguments = bundle
+
+            fr.arguments = Bundle().apply {
+                putParcelable(BUNDLE_WEATHER_EXTRA, weather)
+                putParcelable(BUNDLE_WEATHER_EXTRA, weather)
+            }
+
+            fr.arguments = Bundle().also {
+                it.putParcelable(BUNDLE_WEATHER_EXTRA, weather)
+                it.putParcelable(BUNDLE_WEATHER_EXTRA, weather)
+            }
+
             return fr
         }
     }
