@@ -9,8 +9,8 @@ import kotlin.random.Random
 class WeatherListViewModel(private val liveData: MutableLiveData<AppState> = MutableLiveData<AppState>()):
     ViewModel(){
 
-    lateinit var repositoryOne: RepositoryMono
-    lateinit var repositoryMulti: RepositoryMany
+    private lateinit var repositoryOne: RepositoryMono
+    private lateinit var repositoryMulti: RepositoryMany
 
     fun getLiveData():MutableLiveData<AppState>{
         choiceRepository()
