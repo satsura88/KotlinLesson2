@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.kotlinlesson2.databinding.FragmentDetailsBinding
 import com.example.kotlinlesson2.domain.Weather
+import com.example.kotlinlesson2.model.dto.WeatherDTO
+import com.example.kotlinlesson2.utils.WeatherLoader
 
 class DetailsFragment:Fragment() {
 
@@ -37,37 +39,30 @@ class DetailsFragment:Fragment() {
             arg.getParcelable<Weather>(BUNDLE_WEATHER_EXTRA)
         }
 
-        val weather2 = arguments?.run {
-            this.getParcelable<Weather>(BUNDLE_WEATHER_EXTRA)
-            getParcelable<Weather>(BUNDLE_WEATHER_EXTRA)
-        }
+        weather?.let { weatherLocal ->
 
-        if (weather != null)
-            renderData(weather)
+            WeatherLoader.requestToYa(
+                weatherLocal.city.lat,
+                weatherLocal.city.lon
+            ) { weatherDTO ->
+                bindWeatherLocalWithWeatherDTO(weatherLocal, weatherDTO)
+            }
+        }
+    }
+
+    private fun bindWeatherLocalWithWeatherDTO(
+        weatherLocal: Weather,
+        weatherDTO: WeatherDTO
+    ) {
+        requireActivity().runOnUiThread{
+            renderData(weatherLocal.apply {
+                weatherLocal.feelsLike = weatherDTO.fact.feelsLike
+                weatherLocal.temperature = weatherDTO.fact.temp
+            })
+        }
     }
 
     private fun renderData(weather: Weather) {
-
-        binding?.apply {
-            this.cityName
-            cityName
-        }
-        val resAlso = binding?.also { newIt ->
-            newIt.cityName.text = ""
-            val resLet = binding?.let { bindingMy ->
-                bindingMy.cityName.toString()
-                bindingMy.cityCoordinates.toString()
-            }
-        }
-
-        val resAlso2 = binding?.also { ewsgfweg ->
-            ewsgfweg.cityName.text = ""
-            val resLet = binding?.run {
-                cityName.toString()
-                cityCoordinates.toString()
-            }
-        }
-        val resRun = binding?.run { cityName.toString() }
 
         with(binding){
             cityName.text = weather.city.name

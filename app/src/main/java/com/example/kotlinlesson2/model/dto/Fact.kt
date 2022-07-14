@@ -1,9 +1,9 @@
-package com.example.kotlinlesson2.domain
+package com.example.kotlinlesson2.model.dto
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Part(
+data class Fact(
     @SerializedName("condition")
     val condition: String,
     @SerializedName("daytime")
@@ -14,26 +14,18 @@ data class Part(
     val humidity: Int,
     @SerializedName("icon")
     val icon: String,
-    @SerializedName("part_name")
-    val partName: String,
+    @SerializedName("obs_time")
+    val obsTime: Int,
     @SerializedName("polar")
     val polar: Boolean,
-    @SerializedName("prec_mm")
-    val precMm: Int,
-    @SerializedName("prec_period")
-    val precPeriod: Int,
-    @SerializedName("prec_prob")
-    val precProb: Int,
     @SerializedName("pressure_mm")
     val pressureMm: Int,
     @SerializedName("pressure_pa")
     val pressurePa: Int,
-    @SerializedName("temp_avg")
-    val tempAvg: Int,
-    @SerializedName("temp_max")
-    val tempMax: Int,
-    @SerializedName("temp_min")
-    val tempMin: Int,
+    @SerializedName("season")
+    val season: String,
+    @SerializedName("temp")
+    val temp: Int,
     @SerializedName("temp_water")
     val tempWater: Int,
     @SerializedName("wind_dir")

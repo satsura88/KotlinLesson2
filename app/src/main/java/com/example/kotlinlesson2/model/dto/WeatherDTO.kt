@@ -1,4 +1,4 @@
-package com.example.kotlinlesson2.domain
+package com.example.kotlinlesson2.model.dto
 
 
 import com.google.gson.annotations.SerializedName
