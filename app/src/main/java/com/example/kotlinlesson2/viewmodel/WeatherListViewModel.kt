@@ -34,7 +34,6 @@ class WeatherListViewModel(private val liveData: MutableLiveData<AppState> = Mut
     }
 
     private fun sentRequest(location: Location){
-        //choiceRepository() - при каждом запросе
         liveData.value = AppState.Loading
         Thread{
             Thread.sleep(300L)
