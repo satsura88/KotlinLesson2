@@ -74,13 +74,6 @@ class WeatherListFragment : Fragment(), OnItemClick {
         when (appState) {
             is AppState.Error -> {
                 binding.showResult()
-                binding.root.HW("Error", Snackbar.LENGTH_LONG, "Restart"){ _ ->
-                    if (isBelarus) {
-                        viewModel.getWeatherListForBelarus()
-                    } else {
-                        viewModel.getWeatherListForWorld()
-                    }
-                }
             }
             AppState.Loading -> {
                 binding.loading()
@@ -97,14 +90,6 @@ class WeatherListFragment : Fragment(), OnItemClick {
             }
         }
     }
-
-    fun View.HW(string: String, duration: Int, actionString: String, block:(v:View)->Unit){
-        Snackbar.make(this, string, duration).setAction("Restart", block).show()
-    }
-
-     /*fun View.HW(string: String, duration: Int) {//
-         Snackbar.make(this, string, duration).show()
-     } */
 
     fun FragmentWeatherListBinding.loading() {
         this.mainFragmentLoadingLayout.visibility = View.VISIBLE

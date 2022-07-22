@@ -36,8 +36,6 @@ class DetailsServiceIntent: IntentService("") {
                             putExtra(BUNDLE_WEATHER_DTO_KEY,weatherDTO)
                             action = WAVE
                         })
-
-                    }catch (e:Exception){
                     }finally {
                         myConnection.disconnect()
                     }
