@@ -12,11 +12,8 @@ import com.example.kotlinlesson2.databinding.FragmentWeatherListBinding
 import com.example.kotlinlesson2.domain.Weather
 import com.example.kotlinlesson2.view.details.DetailsFragment
 import com.example.kotlinlesson2.view.details.OnItemClick
-import com.example.kotlinlesson2.viewmodel.AppState
-import com.example.kotlinlesson2.viewmodel.WeatherListViewModel
-import com.google.android.material.snackbar.Snackbar
-import java.time.Duration
-import java.util.concurrent.ArrayBlockingQueue
+import com.example.kotlinlesson2.viewmodel.citieslist.CityListFragmentAppState
+import com.example.kotlinlesson2.viewmodel.citieslist.CitiesListViewModel
 
 
 class WeatherListFragment : Fragment(), OnItemClick {
@@ -38,7 +35,7 @@ class WeatherListFragment : Fragment(), OnItemClick {
         _binding = null
     }
 
-    lateinit var viewModel: WeatherListViewModel
+    lateinit var viewModel: CitiesListViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,9 +47,9 @@ class WeatherListFragment : Fragment(), OnItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(WeatherListViewModel::class.java)
-        viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<AppState> {
-            override fun onChanged(t: AppState) {
+        viewModel = ViewModelProvider(this).get(CitiesListViewModel::class.java)
+        viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<CityListFragmentAppState> {
+            override fun onChanged(t: CityListFragmentAppState) {
                 renderData(t)
             }
         })
@@ -70,20 +67,20 @@ class WeatherListFragment : Fragment(), OnItemClick {
         viewModel.getWeatherListForBelarus()
     }
 
-    private fun renderData(appState: AppState) {
+    private fun renderData(appState: CityListFragmentAppState) {
         when (appState) {
-            is AppState.Error -> {
+            is CityListFragmentAppState.Error -> {
                 binding.showResult()
             }
-            AppState.Loading -> {
+            CityListFragmentAppState.Loading -> {
                 binding.loading()
             }
-            is AppState.SuccessOne -> {
+            is CityListFragmentAppState.SuccessOne -> {
                 binding.showResult()
                 val result = appState.weatherData
 
             }
-            is AppState.SuccessMulti -> {
+            is CityListFragmentAppState.SuccessMulti -> {
                 binding.showResult()
                 binding.mainFragmentRecyclerView.adapter =
                     WeatherListAdapter(appState.weatherList, this)

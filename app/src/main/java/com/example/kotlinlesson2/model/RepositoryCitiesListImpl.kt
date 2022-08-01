@@ -4,7 +4,7 @@ import com.example.kotlinlesson2.domain.Weather
 import com.example.kotlinlesson2.domain.getBelarusCities
 import com.example.kotlinlesson2.domain.getWorldCities
 
-class RepositoryLocalImpl:RepositoryMono,RepositoryMany {
+class RepositoryCitiesListImpl:RepositoryCitiesList {
     override fun getListWeather(location: Location): List<Weather> {
         return when(location){
             Location.Belarus -> {
@@ -14,9 +14,5 @@ class RepositoryLocalImpl:RepositoryMono,RepositoryMany {
                 getWorldCities()
             }
         }
-    }
-
-    override fun getWeather(lat: Double, lon: Double): Weather {
-        return Weather()
     }
 }
