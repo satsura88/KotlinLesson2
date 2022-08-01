@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.load
+import coil.transform.CircleCropTransformation
+import com.example.kotlinlesson2.R
 import com.example.kotlinlesson2.databinding.FragmentDetailsBinding
 import com.example.kotlinlesson2.domain.Weather
 import com.example.kotlinlesson2.viewmodel.details.DetailsFragmentAppState
@@ -64,6 +67,11 @@ class DetailsFragment : Fragment() {
                     temperatureValue.text = weatherDTO.fact.temp.toString()
                     feelsLikeValue.text = weatherDTO.fact.feelsLike.toString()
                     cityCoordinates.text = "${weatherLocal.city.lat}/${weatherLocal.city.lon}"
+                    icon.load("https://flomaster.club/uploads/posts/2022-01/1641507465_1-flomaster-club-p-risunok-na-temu-pogoda-krasivie-risunki-1.jpg\n"){
+                        error(R.drawable.ic_earth)
+                        placeholder(R.drawable.ic_launcher_background)
+                        transformations(CircleCropTransformation())
+                    }
                 }
             }
         }
