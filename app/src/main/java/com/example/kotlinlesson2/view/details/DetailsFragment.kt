@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.ImageLoader
+import coil.decode.SvgDecoder
 import coil.load
+import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.kotlinlesson2.R
 import com.example.kotlinlesson2.databinding.FragmentDetailsBinding
@@ -67,14 +71,26 @@ class DetailsFragment : Fragment() {
                     temperatureValue.text = weatherDTO.fact.temp.toString()
                     feelsLikeValue.text = weatherDTO.fact.feelsLike.toString()
                     cityCoordinates.text = "${weatherLocal.city.lat}/${weatherLocal.city.lon}"
-                    icon.load("https://flomaster.club/uploads/posts/2022-01/1641507465_1-flomaster-club-p-risunok-na-temu-pogoda-krasivie-risunki-1.jpg\n"){
-                        error(R.drawable.ic_earth)
-                        placeholder(R.drawable.ic_launcher_background)
-                        transformations(CircleCropTransformation())
-                    }
+                    icon.loadUrl("https://yastatic.net/weather/i/icons/funky/dark/${weatherDTO.fact.icon}.svg")
                 }
             }
         }
+    }
+
+    fun ImageView.loadUrl(url: String) {
+
+        val imageLoader = ImageLoader.Builder(this.context)
+            .componentRegistry{add(SvgDecoder(this@loadUrl.context))}
+            .build()
+
+        val request = ImageRequest.Builder(this.context)
+            .crossfade(true)
+            .crossfade(500)
+            .data(url)
+            .target(this)
+            .build()
+
+        imageLoader.enqueue(request)
     }
 
     companion object {
