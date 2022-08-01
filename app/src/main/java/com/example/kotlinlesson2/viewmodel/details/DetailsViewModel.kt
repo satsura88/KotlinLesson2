@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinlesson2.model.*
 import com.example.kotlinlesson2.model.dto.WeatherDTO
+import com.example.kotlinlesson2.model.retrofit.RepositoryDetailsRetrofitImpl
 import java.io.IOException
 
 class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppState> = MutableLiveData<DetailsFragmentAppState>()) :
@@ -17,7 +18,7 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
     }
 
     private fun choiceRepository() {
-        repository = when (1) {
+        repository = when (2) {
             1 -> {
                 RepositoryDetailsOkHttpImpl()
             }
