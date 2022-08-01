@@ -9,10 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.ImageLoader
 import coil.decode.SvgDecoder
-import coil.load
 import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
-import com.example.kotlinlesson2.R
 import com.example.kotlinlesson2.databinding.FragmentDetailsBinding
 import com.example.kotlinlesson2.domain.Weather
 import com.example.kotlinlesson2.viewmodel.details.DetailsFragmentAppState
