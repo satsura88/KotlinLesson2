@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.ImageLoader
 import coil.decode.SvgDecoder
-import coil.request.ImageRequest
 import com.example.kotlinlesson2.databinding.FragmentDetailsBinding
 import com.example.kotlinlesson2.domain.Weather
 import com.example.kotlinlesson2.viewmodel.details.DetailsFragmentAppState
@@ -80,7 +79,7 @@ class DetailsFragment : Fragment() {
             .componentRegistry{add(SvgDecoder(this@loadUrl.context))}
             .build()
 
-        val request = ImageRequest.Builder(this.context)
+        val request = coil.request.ImageRequest.Builder(this.context)
             .crossfade(true)
             .crossfade(500)
             .data(url)

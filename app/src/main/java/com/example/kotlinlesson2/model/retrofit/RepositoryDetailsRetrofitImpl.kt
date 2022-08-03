@@ -13,8 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 class RepositoryDetailsRetrofitImpl: RepositoryDetails {
+
+    val retrofitImpl = Retrofit.Builder()
+
     override fun getWeather(lat: Double, lon: Double, callback: LargeSuperCallback) {
-        val retrofitImpl = Retrofit.Builder()
+
         retrofitImpl.baseUrl("https://api.weather.yandex.ru")
         retrofitImpl.addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
         val api = retrofitImpl.build().create(WeatherAPI::class.java)
