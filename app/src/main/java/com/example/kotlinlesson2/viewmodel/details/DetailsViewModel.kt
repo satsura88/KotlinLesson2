@@ -1,7 +1,9 @@
 package com.example.kotlinlesson2.viewmodel.details
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.kotlinlesson2.WeatherApp
 import com.example.kotlinlesson2.model.*
 import com.example.kotlinlesson2.model.dto.WeatherDTO
 import com.example.kotlinlesson2.model.retrofit.RepositoryDetailsRetrofitImpl
@@ -18,7 +20,8 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
     }
 
     private fun choiceRepository() {
-        repository = when (2) {
+        val sp = WeatherApp.getWeatherApp().getSharedPreferences("db_source", Context.MODE_PRIVATE)
+        repository = when (sp.getInt("db_source",2)) {
             1 -> {
                 RepositoryDetailsOkHttpImpl()
             }

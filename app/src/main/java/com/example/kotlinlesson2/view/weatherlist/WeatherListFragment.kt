@@ -1,5 +1,6 @@
 package com.example.kotlinlesson2.view.weatherlist
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinlesson2.R
 import com.example.kotlinlesson2.databinding.FragmentWeatherListBinding
 import com.example.kotlinlesson2.domain.Weather
+import com.example.kotlinlesson2.utils.SP_DB_NAME_IS_BELARUS
+import com.example.kotlinlesson2.utils.SP_KEY_IS_BELARUS
 import com.example.kotlinlesson2.view.details.DetailsFragment
 import com.example.kotlinlesson2.view.details.OnItemClick
 import com.example.kotlinlesson2.viewmodel.citieslist.CityListFragmentAppState
@@ -63,6 +66,11 @@ class WeatherListFragment : Fragment(), OnItemClick {
                 viewModel.getWeatherListForWorld()
                 binding.weatherListFragmentFAB.setImageResource(R.drawable.ic_earth)
             }
+            val sp = requireActivity().getSharedPreferences(SP_DB_NAME_IS_BELARUS, Context.MODE_PRIVATE)
+            val editor = sp.edit()
+            editor.putBoolean(SP_KEY_IS_BELARUS,isBelarus)
+            editor.commit()
+            editor.apply()
         }
         viewModel.getWeatherListForBelarus()
     }
