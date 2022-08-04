@@ -12,7 +12,8 @@ import java.io.IOException
 class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppState> = MutableLiveData<DetailsFragmentAppState>()) :
     ViewModel() {
 
-    lateinit var repository: RepositoryDetails
+    lateinit var repository: RepositoryWeatherByCity
+    lateinit var repositoryWeatherAddable: RepositoryWeatherSave
 
     fun getLiveData(): MutableLiveData<DetailsFragmentAppState> {
         choiceRepository()
@@ -21,18 +22,48 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
 
     private fun choiceRepository() {
         val sp = WeatherApp.getWeatherApp().getSharedPreferences("db_source", Context.MODE_PRIVATE)
-        repository = when (sp.getInt("db_source",2)) {
+        if (isConnection()) {
+            repositoryLocationToOneWeather = when (2){
             1 -> {
-                RepositoryDetailsOkHttpImpl()
+                RepositoryOkHttpImpl()
             }
             2 -> {
                 RepositoryDetailsRetrofitImpl()
             }
             3 -> {
-                RepositoryDetailsWeatherLoaderImpl()
+                RepositoryWeatherLoaderImpl()
             }
             else -> {
-                RepositoryDetailsLocalImpl()
+                RepositoryRoomImpl()
+            }
+        }
+            repositoryWeatherAddable = when (0) {
+                1 -> {
+                    RepositoryRoomImpl()
+                }
+                else -> {
+                    RepositoryRoomImpl()
+                }
+            }
+        } else {
+            repositoryLocationToOneWeather = when (1) {
+                1 -> {
+                    RepositoryRoomImpl()
+                }
+                2 -> {
+                    RepositoryLocalImpl()
+                }
+                else -> {
+                    RepositoryLocalImpl()
+                }
+            }
+            repositoryWeatherAddable = when (0) {
+                1 -> {
+                    RepositoryRoomImpl()
+                }
+                else -> {
+                    RepositoryRoomImpl()
+                }
             }
         }
     }
