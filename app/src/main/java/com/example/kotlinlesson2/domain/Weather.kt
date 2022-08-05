@@ -13,7 +13,7 @@ data class Weather (
 
 @Parcelize
 data class City(
-    val name: String,
+    var name: String,
     val lat:Double,
     val lon: Double
 ):Parcelable

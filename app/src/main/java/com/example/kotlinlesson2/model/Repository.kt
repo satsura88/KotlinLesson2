@@ -2,11 +2,10 @@ package com.example.kotlinlesson2.model
 
 import com.example.kotlinlesson2.domain.City
 import com.example.kotlinlesson2.domain.Weather
-import com.example.kotlinlesson2.model.dto.WeatherDTO
 import java.io.IOException
 
 fun interface RepositoryWeatherByCity {
-    fun getWeather(city: City,callback: CommonWeatherCallback)
+    fun getWeather(city: City, callback: CommonWeatherCallback)
 }
 
 fun interface RepositoryWeatherAvailable {

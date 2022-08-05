@@ -6,6 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.kotlinlesson2.R
+import com.example.kotlinlesson2.databinding.FragmentWeatherHistoryListBinding
+import com.example.kotlinlesson2.domain.Weather
+import com.example.kotlinlesson2.view.details.DetailsFragment
+import com.example.kotlinlesson2.view.details.OnItemClick
+import com.example.kotlinlesson2.viewmodel.weatherhistorylist.WeatherHistoryListFragmentAppState
+import com.example.kotlinlesson2.viewmodel.weatherhistorylist.WeatherHistoryListViewModel
+
 
 class WeatherHistoryListFragment : Fragment(), OnItemClick {
 

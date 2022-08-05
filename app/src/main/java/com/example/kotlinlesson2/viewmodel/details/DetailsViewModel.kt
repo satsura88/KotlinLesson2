@@ -4,15 +4,17 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinlesson2.WeatherApp
+import com.example.kotlinlesson2.domain.City
+import com.example.kotlinlesson2.domain.Weather
 import com.example.kotlinlesson2.model.*
 import com.example.kotlinlesson2.model.dto.WeatherDTO
-import com.example.kotlinlesson2.model.retrofit.RepositoryDetailsRetrofitImpl
+import com.example.kotlinlesson2.model.retrofit.RepositoryLocationToOneWeatherRetrofitImpl
 import java.io.IOException
 
 class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppState> = MutableLiveData<DetailsFragmentAppState>()) :
     ViewModel() {
 
-    lateinit var repository: RepositoryWeatherByCity
+    lateinit var repositoryLocationToOneWeather: RepositoryWeatherByCity
     lateinit var repositoryWeatherAddable: RepositoryWeatherSave
 
     fun getLiveData(): MutableLiveData<DetailsFragmentAppState> {
@@ -28,7 +30,7 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
                 RepositoryOkHttpImpl()
             }
             2 -> {
-                RepositoryDetailsRetrofitImpl()
+                RepositoryLocationToOneWeatherRetrofitImpl()
             }
             3 -> {
                 RepositoryWeatherLoaderImpl()
@@ -69,15 +71,14 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
     }
 
 
-    fun getWeather(lat: Double, lon: Double) {
-        choiceRepository()
+    fun getWeather(city: City) {
         liveData.value = DetailsFragmentAppState.Loading
-        repository.getWeather(lat, lon, callback)
+        repositoryLocationToOneWeather.getWeather(city, callback)
     }
 
-    private val callback = object :LargeSuperCallback{
-        override fun onResponse(weatherDTO: WeatherDTO) {
-            liveData.postValue(DetailsFragmentAppState.Success(weatherDTO))
+    private val callback = object :CommonWeatherCallback{
+        override fun onResponse(weather: Weather) {
+            liveData.postValue(DetailsFragmentAppState.Success(weather))
         }
 
         override fun onFailure(e: IOException) {

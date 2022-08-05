@@ -19,10 +19,10 @@ import com.example.kotlinlesson2.viewmodel.citieslist.CityListFragmentAppState
 import com.example.kotlinlesson2.viewmodel.citieslist.CitiesListViewModel
 
 
-class WeatherListFragment : Fragment(), OnItemClick {
+class CitiesListFragment : Fragment(), OnItemClick {
 
     companion object {
-        fun newInstance() = WeatherListFragment()
+        fun newInstance() = CitiesListFragment()
     }
 
     var isBelarus = true
@@ -91,7 +91,7 @@ class WeatherListFragment : Fragment(), OnItemClick {
             is CityListFragmentAppState.SuccessMulti -> {
                 binding.showResult()
                 binding.mainFragmentRecyclerView.adapter =
-                    WeatherListAdapter(appState.weatherList, this)
+                    CitiesListAdapter(appState.weatherList, this)
             }
         }
     }

@@ -15,8 +15,7 @@ class WeatherApp:Application() {
         private var weatherApp:WeatherApp?=null
         private var weatherDatabase: WeatherDatabase?=null
         fun getWeatherApp() = weatherApp!!
-        fun getWeatherDatabase(){
-            fun getWeatherDatabase(): WeatherDatabase {
+        fun getWeatherDatabase(): WeatherDatabase {
                 if (weatherDatabase == null) {
                     weatherDatabase = Room.databaseBuilder(
                         getWeatherApp(),
@@ -26,7 +25,6 @@ class WeatherApp:Application() {
                         .build()
                 }
                 return weatherDatabase!!
-            }
         }
     }
 }
