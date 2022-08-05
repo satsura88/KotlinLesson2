@@ -3,12 +3,22 @@ package com.example.kotlinlesson2.model
 import com.example.kotlinlesson2.WeatherApp
 import com.example.kotlinlesson2.domain.City
 import com.example.kotlinlesson2.domain.Weather
+import com.example.kotlinlesson2.domain.getDefaultCity
+import com.example.kotlinlesson2.model.room.WeatherDAO
 import com.example.kotlinlesson2.model.room.WeatherEntity
+import com.example.kotlinlesson2.utils.BUNDLE_WEATHER_DTO_KEY
+import com.example.kotlinlesson2.utils.bindDTOWithCity
+import com.example.kotlinlesson2.viewmodel.details.DetailsViewModel
+import okhttp3.internal.addHeaderLenient
 
 class RepositoryRoomImpl:RepositoryWeatherByCity,RepositoryWeatherSave,RepositoryWeatherAvailable {
     override fun getWeather(city: City, callback: CommonWeatherCallback) {
         callback.onResponse(WeatherApp.getWeatherDatabase().weatherDao().getWeatherByLocation(city.lat,city.lon).let{
-            convertHistoryEntityToWeather(it).last()
+            if(convertHistoryEntityToWeather(it).size>0){
+                convertHistoryEntityToWeather(it).last()
+            }else{
+                Weather() //доделать тут
+            }
         })
     }
 

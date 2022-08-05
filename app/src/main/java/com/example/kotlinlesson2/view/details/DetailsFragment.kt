@@ -70,7 +70,7 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    fun ImageView.loadUrl(url: String) {
+    private fun ImageView.loadUrl(url: String) {
 
         val imageLoader = ImageLoader.Builder(this.context)
             .componentRegistry{add(SvgDecoder(this@loadUrl.context))}

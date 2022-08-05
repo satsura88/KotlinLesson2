@@ -26,12 +26,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         val sp = getSharedPreferences(SP_DB_NAME_IS_BELARUS, Context.MODE_PRIVATE)
-        val isRussian = sp.getBoolean(SP_KEY_IS_BELARUS,true)
+        val isBelarus = sp.getBoolean(SP_KEY_IS_BELARUS,true)
         val editor = sp.edit()
-        editor.putBoolean(SP_KEY_IS_BELARUS,isRussian)
+        editor.putBoolean(SP_KEY_IS_BELARUS,isBelarus)
         editor.apply()
         sp.edit().apply {
-            putBoolean(SP_KEY_IS_BELARUS, isRussian)
+            putBoolean(SP_KEY_IS_BELARUS, isBelarus)
             apply()
         }
     }
@@ -40,20 +40,4 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.main_screen_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_history -> {
-                supportFragmentManager.apply {
-                    beginTransaction()
-                        .replace(R.id.container, WeatherHistoryListFragment())
-                        .addToBackStack("")
-                        .commitAllowingStateLoss()
-                }
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
 }

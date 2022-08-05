@@ -23,7 +23,7 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
     }
 
     private fun choiceRepository() {
-        val sp = WeatherApp.getWeatherApp().getSharedPreferences("db_source", Context.MODE_PRIVATE)
+        //val sp = WeatherApp.getWeatherApp().getSharedPreferences("db_source", Context.MODE_PRIVATE)
         if (isConnection()) {
             repositoryLocationToOneWeather = when (2){
             1 -> {
@@ -35,8 +35,11 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
             3 -> {
                 RepositoryWeatherLoaderImpl()
             }
-            else -> {
+            4 -> {
                 RepositoryRoomImpl()
+            }
+            else -> {
+                RepositoryLocalImpl()
             }
         }
             repositoryWeatherAddable = when (0) {
@@ -78,6 +81,8 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
 
     private val callback = object :CommonWeatherCallback{
         override fun onResponse(weather: Weather) {
+            if (isConnection())
+                repositoryWeatherAddable.addWeather(weather)
             liveData.postValue(DetailsFragmentAppState.Success(weather))
         }
 
@@ -90,4 +95,7 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
         return false
     }
 
+    override fun onCleared() {
+        super.onCleared()
+    }
 }
