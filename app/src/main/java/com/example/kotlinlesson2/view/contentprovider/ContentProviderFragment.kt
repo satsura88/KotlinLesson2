@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -69,6 +70,17 @@ class ContentProviderFragment : Fragment() {
             null,
             ContactsContract.Contacts.DISPLAY_NAME + " ASC"
         )
+        cursorWithContacts?.let { cursor->
+            for(i in 0 until cursor.count){
+                cursor.moveToPosition(i)
+                val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                binding.containerForContacts.addView(TextView(requireContext()).apply {
+                    text = name
+                    textSize = 25f
+                })
+            }
+        }
+        cursorWithContacts?.close()
     }
 
     fun permissionRequest(permission: String){
