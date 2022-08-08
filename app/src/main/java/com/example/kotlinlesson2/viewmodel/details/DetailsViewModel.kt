@@ -92,7 +92,7 @@ class DetailsViewModel(private val liveData: MutableLiveData<DetailsFragmentAppS
     }
 
     private fun isConnection(): Boolean {
-        return false
+        return true
     }
 
     override fun onCleared() {
