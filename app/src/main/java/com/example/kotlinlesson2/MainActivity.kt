@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinlesson2.databinding.ActivityMainBinding
 import com.example.kotlinlesson2.utils.SP_DB_NAME_IS_BELARUS
 import com.example.kotlinlesson2.utils.SP_KEY_IS_BELARUS
+import com.example.kotlinlesson2.view.contentprovider.ContentProviderFragment
 import com.example.kotlinlesson2.view.room.WeatherHistoryListFragment
 import com.example.kotlinlesson2.view.weatherlist.CitiesListFragment
 
@@ -39,5 +40,30 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_screen_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+            R.id.menu_history -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .replace(R.id.container, WeatherHistoryListFragment())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+
+            R.id.menu_content_provider-> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .replace(R.id.container, (ContentProviderFragment()))
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
