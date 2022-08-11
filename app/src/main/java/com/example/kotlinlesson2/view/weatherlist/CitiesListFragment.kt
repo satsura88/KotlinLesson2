@@ -3,11 +3,11 @@ package com.example.kotlinlesson2.view.weatherlist
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinlesson2.R
 import com.example.kotlinlesson2.databinding.FragmentWeatherListBinding
+import com.example.kotlinlesson2.domain.City
 import com.example.kotlinlesson2.domain.Weather
 import com.example.kotlinlesson2.utils.SP_DB_NAME_IS_BELARUS
 import com.example.kotlinlesson2.utils.SP_KEY_IS_BELARUS
@@ -26,7 +27,8 @@ import com.example.kotlinlesson2.view.details.DetailsFragment
 import com.example.kotlinlesson2.view.details.OnItemClick
 import com.example.kotlinlesson2.viewmodel.citieslist.CityListFragmentAppState
 import com.example.kotlinlesson2.viewmodel.citieslist.CitiesListViewModel
-import java.security.AccessController.checkPermission
+import java.util.*
+import kotlin.system.measureTimeMillis
 
 
 class CitiesListFragment : Fragment(), OnItemClick {
@@ -88,25 +90,48 @@ class CitiesListFragment : Fragment(), OnItemClick {
         }
     }
 
+    lateinit var locationManager:LocationManager
+
     private fun getLocation() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED) {
-            val locationManager =
+            locationManager =
                 requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                val provider = locationManager.getProvider(LocationManager.GPS_PROVIDER)
 
                 locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     2000L,
                     0F,
-                    object : LocationListener {
-                        override fun onLocationChanged(location: Location) {
-                            Log.d("logs", "${location.latitude} ${location.longitude}")
-                        }
-                    })
+                    locationListener)
             }
+        }
+    }
+
+    private val locationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            getAddress(location)
+        }
+
+        override fun onProviderDisabled(provider: String) {
+            super.onProviderDisabled(provider)
+        }
+
+        override fun onProviderEnabled(provider: String) {
+            super.onProviderEnabled(provider)
+        }
+    }
+
+    fun getAddress(location: Location) {
+        val geocoder = Geocoder(context, Locale("by_BY"))
+        val time = measureTimeMillis {
+            Thread{
+                val address = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                onItemClick(Weather(City(address.first().locality,location.latitude, location.longitude)))
+            }.start()
         }
     }
 
@@ -156,8 +181,8 @@ class CitiesListFragment : Fragment(), OnItemClick {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun renderData(appState: CityListFragmentAppState) {
-        when (appState) {
+    private fun renderData(cityListFragmentAppState: CityListFragmentAppState) {
+        when (cityListFragmentAppState) {
             is CityListFragmentAppState.Error -> {
                 binding.showResult()
             }
@@ -166,13 +191,13 @@ class CitiesListFragment : Fragment(), OnItemClick {
             }
             is CityListFragmentAppState.SuccessOne -> {
                 binding.showResult()
-                val result = appState.weatherData
+                val result = cityListFragmentAppState.weatherData
 
             }
             is CityListFragmentAppState.SuccessMulti -> {
                 binding.showResult()
                 binding.mainFragmentRecyclerView.adapter =
-                    CitiesListAdapter(appState.weatherList, this)
+                    CitiesListAdapter(cityListFragmentAppState.weatherList, this)
             }
         }
     }
@@ -188,6 +213,7 @@ class CitiesListFragment : Fragment(), OnItemClick {
     }
 
     override fun onItemClick(weather: Weather) {
+        locationManager.removeUpdates(locationListener)
         requireActivity().supportFragmentManager.beginTransaction().hide(this).add(
             R.id.container, DetailsFragment.newInstance(weather)
         ).addToBackStack("").commit()
