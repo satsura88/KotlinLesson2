@@ -9,7 +9,11 @@ import com.example.kotlinlesson2.model.room.WeatherEntity
 class RepositoryRoomImpl:RepositoryWeatherByCity,RepositoryWeatherSave,RepositoryWeatherAvailable {
     override fun getWeather(city: City, callback: CommonWeatherCallback) {
         callback.onResponse(WeatherApp.getWeatherDatabase().weatherDao().getWeatherByLocation(city.lat,city.lon).let{
+            if(it.isNotEmpty()){
                 convertHistoryEntityToWeather(it).last()
+            }else{
+                Weather(city)
+            }
         })
     }
 
