@@ -9,6 +9,7 @@ import com.example.kotlinlesson2.databinding.ActivityMainBinding
 import com.example.kotlinlesson2.utils.SP_DB_NAME_IS_BELARUS
 import com.example.kotlinlesson2.utils.SP_KEY_IS_BELARUS
 import com.example.kotlinlesson2.view.contentprovider.ContentProviderFragment
+import com.example.kotlinlesson2.view.maps.MapsFragment
 import com.example.kotlinlesson2.view.room.WeatherHistoryListFragment
 import com.example.kotlinlesson2.view.weatherlist.CitiesListFragment
 
@@ -58,6 +59,16 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.apply {
                     beginTransaction()
                         .replace(R.id.container, (ContentProviderFragment()))
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+
+            R.id.menu_google_maps-> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .replace(R.id.container, (MapsFragment()))
                         .addToBackStack("")
                         .commitAllowingStateLoss()
                 }
